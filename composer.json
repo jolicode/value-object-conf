@@ -1,0 +1,20 @@
+{
+  "name": "jolicode/value-object-demo",
+  "description": "Demo for ValueObject with Doctrine 2.5",
+  "minimum-stability": "stable",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Damien ALEXANDRE",
+      "email": "dalexandre@jolicode.com"
+    }
+  ],
+  "require": {
+    "doctrine/orm": "^2.5"
+  },
+  "autoload": {
+    "psr-4": {
+      "": "./"
+    }
+  }
+}

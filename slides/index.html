@@ -1,0 +1,372 @@
+<!DOCTYPE HTML>
+<html lang="fr">
+<head>
+	<title>Forum PHP 2015 : Mets du Value Object dans ton modèle</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=792, user-scalable=no">
+	<meta http-equiv="x-ua-compatible" content="ie=edge">
+	<link rel="stylesheet" href="shower/themes/ribbon/styles/screen.css">
+	<link rel="stylesheet" href="styles/prism.css" />
+	<link rel="stylesheet" href="styles/custom.css">
+</head>
+<body class="list">
+	<header class="caption">
+		<h1>Forum PHP 2015 : Mets du Value Object dans ton modèle</h1>
+		<p>Damien ALEXANDRE - Novembre 2015</p>
+	</header>
+
+	<section class="slide cover" id="coverpage"><div>
+		<div class="covertitle">
+			<h2>Mets du Value Object dans ton modèle</h2>
+			<p>Forum PHP 2015 - Damien ALEXANDRE - Novembre 2015</p>
+		</div>
+        <img src="covers/jolicode-bg.jpg" />
+    </div></section>
+
+	<section class="slide"><div>
+		<h2>Le barbu sur scène : Damien ALEXANDRE</h2>
+		<ul>
+			<li>Expert PHP &amp; Elasticsearch pour <img src="pictures/logo.svg" style="height:2em; vertical-align: text-bottom;">
+                <ul>
+                    <li>Agence spécialisé dans le développement de projet web et mobile de qualité ;</li>
+                    <li>Arte, Mediapart, Arianespace, Canal Plus...</li>
+                    <li>Équipe a taille humaine, change de job en <a href="http://jolicode.com/jobs" class="blink">cliquant ici</a>.</li>
+                </ul>
+            </li>
+			<li><a href="https://twitter.com/damienalexandre">@damienalexandre</a> sur Twitter &amp; Github ;</li>
+			<li>#symfony #elasticsearch #micro-typographie #beer #lego</li>
+		</ul>
+	</div></section>
+
+	<section class="slide"><div>
+		<h2>Bonjour 2015</h2>
+		<ul>
+			<li>On ne fait plus de procédural ;</li>
+			<li>Nos modèles de données sont riches ;</li>
+			<li>On utilise la POO tous les jours ;</li>
+			<li class="next">... au prix d'applications plus complexes.</li>
+		</ul>
+	</div></section>
+
+	<section class="slide"><div>
+		<h2>Ajout de phases de conception</h2>
+		<ul>
+			<li>On réfléchie avant de coder ;</li>
+			<li>On utilise des plan de conception :
+                <ul>
+                    <li>respectant le besoin fonctionnel ;</li>
+                    <li>permettant l'évolution sans remise en cause ;</li>
+                    <li>permettant d'être productif.</li>
+                </ul>
+            </li>
+            <li class="next">... Et c'est pas facile.</li>
+        </ul>
+	</div></section>
+
+	<section class="slide"><div>
+		<h2>
+            Le DDD à la rescousse
+            <span>Domain Driven Design</span>
+        </h2>
+
+		<ul>
+			<li>Tous le monde en a déjà entendu parlé ;</li>
+            <li class="next">Personne ne sait trop ce que c'est ;</li>
+			<li class="next">DDD n'est pas une techno ni une méthode de développement ;</li>
+			<li class="next">DDD est un <strong>ensemble de pratiques</strong>, fondé sur la collaboration entre expert fonctionnels ;</li>
+            <li class="next">DDD est une manière de penser et de communiquer les problèmes et leurs solutions, entre les équipes techniques et fonctionnelles.</li>
+        </ul>
+	</div></section>
+
+    <section class="slide shout"><div>
+        <h2>STOP</h2>
+    </div></section>
+
+	<section class="slide"><div>
+		<h2>Ceci n'est pas une conférence sur le DDD</h2>
+
+        <p>Allez plutôt voir :</p>
+
+        <img src="pictures/alexandre-balmes.jpg" alt="Alexandre Balmes" style="display: block;height: 50%; float: left; margin-right: 10px;" />
+        <p><strong>CHRONIQUE D'UN PROJET DRIVEN DESIGN</strong>
+            <br>par Alexandre Balmes<br/>
+            <small>le 23 à 14h dans l'Auditorium Lucienne et André Blin</small></p>
+    </div></section>
+
+    <section class="slide"><div>
+		<h2>Le Value Object</h2>
+
+        <ul>
+            <li>Un des outils fondamentaux du DDD ;</li>
+            <li>On en fait des caisse mais en fait c'est tout simple ;</li>
+            <li>La seule chose a retenir du DDD ? <img src="pictures/trollface.svg" alt="Trollface" style="height: 1.5em;"></li>
+        </ul>
+	</div></section>
+
+    <section class="slide"><div>
+		<h2>Le VO <span>C'est son petit nom :)</span></h2>
+
+        <ul>
+            <li>Un objet qui contient des données ;
+                <ul>
+                    <li>Musures ;</li>
+                    <li>Quantités ;</li>
+                    <li>Descriptions ;</li>
+                </ul>
+            </li>
+            <li>Il n'a pas d'identité (contrairement à l'Entité) ;</li>
+            <li>Il est immutable ;</li>
+            <li>Son identité est basée sur son contenu.</li>
+        </ul>
+    </div></section>
+
+    <section class="slide"><div>
+		<h2>Le VO connus</h2>
+
+        <ul>
+            <li>\DateTimeImmutable (PHP 5.5)</li>
+            <li>Address</li>
+            <li>Money</li>
+            <li>Location</li>
+            <li class="next">On retrouve toujours les mêmes exemples, innovons!</li>
+        </ul>
+    </div></section>
+
+    <section class="slide cover"><div>
+        <h2>Avec l'aide de mon assistant</h2>
+        <img src="pictures/georgewants-nespresso.jpg" alt="">
+    </div></section>
+
+    <section class="slide"><div>
+        <h2 style="margin-bottom: 0;">Une cafetière
+        <span>Conférence non sponsorisée.</span>
+        </h2>
+        <img src="pictures/maker.jpg" alt="" style="height: 90%; margin: 0 auto; display: block;">
+    </div></section>
+
+    <section class="slide"><div>
+		<h2>Un objet cafetière</h2>
+
+        <pre><code class="language-php">class CoffeeMaker
+{
+    private $id;
+    private $model;
+    private $currentCapsule;
+}</code></pre>
+	</div></section>
+
+    <section class="slide"><div>
+		<h2>La capsule ?</h2>
+
+        <pre><code class="language-php">$maker = new CoffeeMaker();
+$maker->setModel('Magimix 42');
+$maker->setCurrentCapsule(
+    // ??? Wat ???
+);</code></pre>
+
+        <p>Une capsule posséde un nom, un arôme, une couleur... et une identité.</p>
+	</div></section>
+
+    <section class="slide"><div>
+		<h2>On pourrait faire ce genre de capsule</h2>
+
+        <pre><code class="language-php">class Capsule
+{
+    private $id;
+    private $name;
+    private $color;
+    private $intensity;
+}</code></pre>
+    </div></section>
+
+    <section class="slide"><div>
+        <h2>MAIS</h2>
+
+        <ul>
+            <li>name, color, intensity… décrivent une capsule ;</li>
+            <li>la validation de la couleur serait le rôle de la Capsule ?! Viole le principe de Simple Responsability ;</li>
+            <li>difficulté de réutilisation : si je veux un objet User, qui aurait un type de capsule préférée ?</li>
+            <li>mélange des préocupations.</li>
+        </ul>
+
+        <p>On tient notre candidat pour devenir un VO !</p>
+    </div></section>
+
+
+    <section class="slide"><div>
+        <h2>Notre VO CapsuleType !</h2>
+
+        <pre><code class="language-php">class CapsuleType
+{
+    private $name;
+    private $color;
+    private $intensity;
+}
+
+$capsule = new Capsule();
+$capsule->setType(
+    new CapsuleType("JoliBrew")
+);
+
+$maker->setCurrentCapsule($capsule);
+</code></pre>
+    </div></section>
+
+    <section class="slide"><div>
+        <h2>Notre VO CapsuleType !</h2>
+
+        <ul>
+            <li>Il va contenir toute l'intelligence d'un type de capsule de café, tout est encapsulé (badum tsss!) ;</li>
+            <li>Nous allons y mettre la validation (couleur valide, etc) ;</li>
+            <li>Il est réutilisable, pour d'autres objets qui auraient besoin d'un type de capsule (User) ;</li>
+            <li>Il peut contenir des méthodes / comportements propres aux types de capsules (<code>isDecaf()</code>)...</li>
+            <li>C'est aussi pour facile à tester et à maintenir !</li>
+        </ul>
+    </div></section>
+
+    <section class="slide"><div>
+        <h2>CapsuleType n'a pas d'identité</h2>
+
+        <p><strong>Un CapsuleType s'identifie par son contenu.</strong></p>
+
+        <p>
+            On peut dire que deux Capsules sont du même type si les attributs de
+            CapsuleType sont identiques dans les deux Capsules.
+        </p>
+    </div></section>
+
+    <section class="slide"><div>
+        <h2>La Capsule a une identité</h2>
+
+        <p><strong>La Capsule est identifiée</strong>, deux Capsules du même type ne sont pas considéré comme étant la même : elles
+            se manipulent, se suppriment, se consomment - elles ont une vie propre dans notre domaine.</p>
+
+        <p>Capsule est une entité. Tout comme CoffeeMaker.</p>
+    </div></section>
+
+    <section class="slide"><div>
+        <h2>L'exemple complet</h2>
+
+<pre><code class="language-php">$roma  = new CapsuleType('Roma', 'purple', 'intense et crémeux', 9);
+
+$capsule = new Capsule();
+$capsule->setType($roma);
+
+$maker = new CoffeeMaker();
+$maker->setModel('Magimix 42');
+$maker->setCurrentCapsule($capsule);</code></pre>
+    </div></section>
+
+    <section class="slide"><div>
+        <h2>Identité</h2>
+
+        <p>Pour savoir si deux cafétières sont sur le point de préparer le même café, on compare donc désormais des objets !</p>
+
+        <pre><code class="language-php">$ristretto  = new CapsuleType('Ristretto', 'black');
+$roma       = new CapsuleType('Roma', 'purple');
+
+$ristretto == $roma; // false</code></pre>
+
+        <p>Oui on utilise <code>==</code>.</p>
+    </div></section>
+
+    <section class="slide"><div>
+        <h2>Égalité d'objets en PHP
+            <span>Le saviez-vous ?</span></h2>
+
+        <pre><code class="language-php">class VO {
+    private $test;
+    public function __construct($test) {
+        $this->test = $test;
+    }
+}
+
+$foo = new VO('I need coffee');
+$bar = new VO('I need coffee');
+
+var_dump($one == $two); // true !
+var_dump($one === $two); // false
+</code></pre>
+    </div></section>
+
+    <section class="slide"><div>
+        <h2>Égalité d'objet en PHP</h2>
+
+        <ul>
+            <li><code>===</code> compare uniquement la référence mémoire de l'objet ;</li>
+            <li><code>==</code> compare le nom de la classe et les valeurs des attributs ;</li>
+        </ul>
+
+        <p>On compare donc nos VO avec <code>==</code> et on assume.</p>
+
+        <small>Vous pouvez aussi écrire une méthode <code>isEqual()</code> si vous avez trop de temps libre
+            et que vous aimez réinventer la roue (ou si vous faite de l'héritage de VO).</small>
+    </div></section>
+
+    <section class="slide"><div>
+        <h2>Deux VO identiques != même instance</h2>
+
+        <pre><code class="language-php">$roma = new CapsuleType('Roma', 'purple', 'intense et crémeux', 9);</code></pre>
+
+        <p>
+            Dans un monde idéal, toutes les capsule Roma seraient représenté par la même <strong>instance</strong> de CapsuleType.<br />
+            Dans la vraie vie, ce n'est pas le cas :
+        </p>
+        <ul>
+            <li>on code comme des pieds ;</li>
+            <li>notre ORM ne gère pas les VO ;</li>
+            <li>c'est pénible de se trainer des instances partout.</li>
+        </ul>
+    </div></section>
+
+    <section class="slide"><div>
+        <h2>Deux VO identiques != même instance</h2>
+
+
+        <p>Aucun problème. Créez autant de <code>$roma</code> que vous voulez.</p>
+
+        <p>Ce qui est important, c'est que vous puissiez toujours les comparer :</p>
+
+        <pre><code class="language-php">$roma = new CapsuleType('Roma', 'purple', 'intense et crémeux', 9);
+$romaFromORM == $roma; // TRUE \o/</code></pre>
+    </div></section>
+
+
+    <section class="slide"><div>
+        <h2>Changer de café ?</h2>
+
+        <pre><code class="language-php">$maker; // Notre cafetière
+$maker->getCurrentCapsule(); // Notre Capsule
+$maker->getCurrentCapsule()->getType(); // Notre CapsuleType
+$maker->getCurrentCapsule()->getType()->setName('Ristretto'); // NO!!</code></pre>
+
+        <p>On va utiliser une autre instance de <code>CapsuleType</code> : <strong>toujours</strong>.</p>
+    </div></section>
+
+    <section class="slide cover"><div>
+        <h2>IRL on ne "change" pas le café de la capsule&nbsp;</h2>
+        <img src="pictures/capsuleWar.jpg" alt="">
+    </div></section>
+
+
+    <section class="slide"><div>
+        <h2>Immutabilité</h2>
+
+        <p>Le propre d'un VO est d'être immutable : vous ne pouvez pas en changer le contenu. C'est super important.</p>
+
+        <ul>
+            <li>Une instance de <code>CapsuleType</code> ne peux pas se retrouver dans un état invalide (couleur manquante par exemple) ;</li>
+            <li>Changer la valeur d'un VO doit revenir a changer d'objet ;</li>
+            <li>Si le VO est utilisé dans une autre entité, il n'y a pas d'effets de bords&nbsp;;</li>
+            <li>Ils sont plus facile a tester ;</li>
+            <li>Si la classe évolue, ça casse l'existant (c'est voulu).</li>
+        </ul>
+    </div></section>
+
+	<div class="progress"><div></div></div>
+	<script src="shower/shower.min.js"></script>
+	<script src="styles/prism.js"></script>
+	<script src="styles/jquery-2.1.1.min.js"></script>
+	<script src="styles/progress.js"></script>
+</body>
+</html>
