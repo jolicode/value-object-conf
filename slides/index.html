@@ -484,6 +484,126 @@ $refProperty->setValue($one, 'Trolololol');</code></pre>
         <p>Communiquez, documentez, adoptez une convention, un namespace… Ne laissez pas vos collègues implémenter un setter et tout ira bien.</p>
     </div></section>
 
+
+    <section class="slide cover"><div>
+        <h2 style="background: none;">La persistence</h2>
+        <img src="pictures/doctrinewhat.png" alt="">
+    </div></section>
+
+
+    <section class="slide"><div>
+        <h2>Avec PHP et Doctrine 2.5</h2>
+
+        <p>Je suis là pour vous parler de Doctrine, deux stratégies :</p>
+
+        <ul>
+            <li>Utiliser Embeddable ;</li>
+            <li>Utiliser le type "object".</li>
+        </ul>
+    </div></section>
+
+    <section class="slide"><div>
+        <h2>Type object</h2>
+
+        <p>La façon historique de faire du VO avec Doctrine.</p>
+
+        <ul>
+            <li>Utilise <code>serialize/unserialize</code> pour stocker vos VO ;</li>
+            <li>Pas possible de requêter sur les propriétés de l'objet ;</li>
+            <li>Refactoring complexe (namespace en dur) ;</li>
+            <li>Présent depuis les débuts de Doctrine.</li>
+        </ul>
+    </div></section>
+
+    <section class="slide"><div>
+        <h2>Notre exemple</h2>
+
+        <p>Chaque utilisateur dans notre domaine peut avoir un type de capsule préféré.</p>
+        <p>Nous avons une <strong>entité User</strong> et un <strong>VO CapsuleType</strong>.</p>
+
+        <img src="pictures/clooneySwag.png" alt="" style="float: right;">
+    </div></section>
+
+
+    <section class="slide"><div>
+        <h2>Utilisation du type object</h2>
+
+        <pre><code class="language-php">/** @Entity */
+class User
+{
+    /**
+     * @var CapsuleType
+     * @Column(type="object")
+     */
+    private $favoriteCapsuleType;
+}</code></pre>
+
+        <p>Rien de particulier sur l'objet ! #win</p>
+    </div></section>
+
+    <section class="slide"><div>
+        <h2>Attention a bien forcer un type</h2>
+
+        <pre><code class="language-php">/**
+ * @param CapsuleType $type
+ */
+public function setFavoriteCapsuleType(CapsuleType $type)
+{
+    $this->favoriteCapsuleType = $type;
+}</code></pre>
+
+        <p>Type hint obligatoire, pas de validation par Doctrine.</p>
+    </div></section>
+
+    <section class="slide"><div>
+        <h2>Le schéma généré</h2>
+
+        <table>
+            <tr>
+                <th scope="row">id</th>
+                <td>int(11)</td>
+            </tr>
+            <tr>
+                <th scope="row">favoriteCapsuleType</th>
+                <td>longtext</td>
+            </tr>
+        </table>
+
+        <p>Avec un commentaire : <code>(DC2Type:object)</code>, attention à votre SGBD.</p>
+    </div></section>
+
+
+    <section class="slide"><div>
+        <h2>Utilisation naturelle</h2>
+
+        <pre><code class="language-php">$ristretto = CapsuleType::fromValues('Ristretto');
+
+$user   = new User();
+$user>setFavoriteCapsuleType($ristretto);
+
+$entityManager->persist($user);
+$entityManager->flush();</code></pre>
+    </div></section>
+
+
+    <section class="slide"><div>
+        <h2>En base de donnée</h2>
+
+        <table>
+            <tr>
+                <th scope="row">id</th>
+                <td><code>1</code></td>
+            </tr>
+            <tr>
+                <th scope="row">favoriteCapsuleType</th>
+                <td><code>O:17:"Model\CapsuleType":1:{s:23:"Model\CapsuleTypename";s:9:"Ristretto"}</code></td>
+            </tr>
+        </table>
+
+        <p>C'est juste un peu moche.</p>
+    </div></section>
+
+
 	<div class="progress"><div></div></div>
 	<script src="shower/shower.min.js"></script>
 	<script src="styles/prism.js"></script>
