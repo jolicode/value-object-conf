@@ -592,11 +592,11 @@ $entityManager->flush();</code></pre>
         <table>
             <tr>
                 <th scope="row">id</th>
-                <td><code>1</code></td>
+                <td>1</td>
             </tr>
             <tr>
                 <th scope="row">favoriteCapsuleType</th>
-                <td><code>O:17:"Model\CapsuleType":1:{s:23:"Model\CapsuleTypename";s:9:"Ristretto"}</code></td>
+                <td>O:17:"Model\CapsuleType":1:{s:23:"Model\CapsuleTypename";s:9:"Ristretto"}</td>
             </tr>
         </table>
 
@@ -604,7 +604,225 @@ $entityManager->flush();</code></pre>
     </div></section>
 
 
-	<div class="progress"><div></div></div>
+
+    <section class="slide"><div>
+        <h2>Hydratation propre, on récupère notre VO</h2>
+
+        <pre><code class="language-php">$entityManager->find(User::class, 1);
+
+// Retour de Doctrine
+class Model\User {
+    private $id => int(1)
+    private $favoriteCapsuleType => class Model\CapsuleType {
+        private $name => string(9) "Ristretto"
+    }
+}</code></pre>
+    </div></section>
+
+
+    <section class="slide"><div>
+        <h2>Quelques inconvénients</h2>
+
+        <ul>
+            <li>Pas de requête possible sur les champs du VO ;</li>
+            <li>sérialisation PHP, non standard, non intéropérable ;</li>
+            <li>couplage fort, impossible de renommer la classe par exemple.</li>
+        </ul>
+    </div></section>
+
+
+    <section class="slide"><div>
+        <h2>Introducing Embeddable !</h2>
+
+        <ul>
+            <li>Nouvelle fonctionnalité mergé le 8 février 2014 ;</li>
+            <li class="next">Released le 2 avril 2015 !</li>
+            <li>Uniquement disponible dans Doctrine >= 2.5 donc ;</li>
+            <li><code>@Embedded</code> et <code>@Embeddable</code> ;</li>
+            <li>Copie les champs du VO dans la table de l'entité ;</li>
+            <li>Similaire a Hibernate Embedded.</li>
+        </ul>
+    </div></section>
+
+
+
+    <section class="slide"><div>
+        <h2>Notre objet Embeddable, le VO CapsuleType</h2>
+
+        <pre><code class="language-php">/** @Embeddable */
+final class CapsuleType
+{
+    /** @Column(type="string") */
+    private $name;
+
+    private function __construct() {}
+
+    public static function fromValues($name)
+    {
+        $type = new CapsuleType();
+        $type->name = $name;
+        return $type;
+    }
+}</code></pre>
+    </div></section>
+
+
+    <section class="slide"><div style="padding: 10px 100px 10px 100px; height: 550px;">
+        <h2>Notre entité User</h2>
+
+        <pre><code class="language-php">/** @Entity */
+class User {
+    /**
+     * @Id
+     * @Column(type="integer")
+     * @GeneratedValue
+     */
+    private $id;
+
+    /**
+     * @Embedded(class="CapsuleType")
+     */
+    private $favoriteCapsuleType;
+
+    /**
+     * @param CapsuleType $favoriteCapsuleType
+     */
+    public function setFavoriteCapsuleType(CapsuleType $type) // ...</code></pre>
+    </div></section>
+
+
+
+    <section class="slide"><div>
+        <h2>Le schéma généré</h2>
+
+        <table>
+            <tr>
+                <th scope="row">id</th>
+                <td>int(11)</td>
+            </tr>
+            <tr>
+                <th scope="row">favoriteCapsuleType_name</th>
+                <td>varchar(255)</td>
+            </tr>
+            <tr class="next">
+                <th scope="row">favoriteCapsuleType_intensity</th>
+                <td>int(2)</td>
+            </tr>
+            <tr class="next">
+                <th scope="row">favoriteCapsuleType_color</th>
+                <td>varchar(12)</td>
+            </tr>
+            <tr class="next">
+                <th scope="row">...</th>
+                <td>...</td>
+            </tr>
+        </table>
+
+        <p>Pas de commentaire \o/ et un nouveau champ par propriété du VO.</p>
+    </div></section>
+
+
+    <section class="slide"><div>
+        <h2>Utilisation aisée</h2>
+
+        <pre><code class="language-php">$ristretto = CapsuleType::fromValues('Ristretto');
+
+$user      = new User();
+$user->setFavoriteCapsuleType($ristretto);
+
+$entityManager->persist($capsule);
+$entityManager->flush();</code></pre>
+
+        <p>Rien de nouveau, on manipule des objets.</p>
+    </div></section>
+
+
+
+    <section class="slide"><div>
+        <h2>En base de donnée</h2>
+
+        <table>
+            <tr>
+                <th scope="row">id</th>
+                <td>1</td>
+            </tr>
+            <tr>
+                <th scope="row">favoriteCapsuleType_name</th>
+                <td>Ristretto</td>
+            </tr>
+            <tr class="next">
+                <th scope="row">favoriteCapsuleType_intensity</th>
+                <td>12</td>
+            </tr>
+            <tr class="next">
+                <th scope="row">favoriteCapsuleType_color</th>
+                <td>pink</td>
+            </tr>
+        </table>
+
+        <p>Beaucoup plus propre !</p>
+    </div></section>
+
+
+
+
+    <section class="slide"><div>
+        <h2>Hydratation en VO aussi !</h2>
+
+        <pre><code class="language-php">$entityManager->find(User::class, 1);
+
+class Model\User {
+    private $id => int(1)
+    private $favoriteCapsuleType => class Model\CapsuleType {
+        private $name => string(9) "Ristretto"
+        // ...
+    }
+}</code></pre>
+
+        <p>Identique au type <code>object</code>.</p>
+    </div></section>
+
+
+    <section class="slide"><div>
+        <h2>DQL Intelligent</h2>
+
+        <pre><code class="language-php">$queryBuilder->from(User::class, 'u')->select('u');
+$queryBuilder->where('u.favoriteCapsuleType.name = :name');
+$queryBuilder->setParameter('name', 'Ristretto');</code></pre>
+
+        <p>On n'utilise pas <code>favoriteCapsuleType_name</code>,<br >
+            mais bien à <code>User->favoriteCapsuleType->name</code> !</p>
+
+        <p>Et on peut faire des recherches sur les champs du VO.</p>
+    </div></section>
+
+
+    <section class="slide"><div>
+        <h2>Dans les deux cas, attention à l'hydratation</h2>
+
+        <ul>
+            <li>N'instancie pas les objets comme vous :
+                <ul>
+                    <li><code>__construct()</code></li>
+                    <li><code>fromValues()</code></li>
+                </ul>
+            </li>
+            <li>Peux provoquer des états invalide si la BDD est manipulée ailleurs ;</li>
+            <li>Ne réutilise pas la même instance d'un VO a chaque fois qu'il le rencontre.</li>
+        </ul>
+    </div></section>
+
+
+
+    <section class="slide cover"><div style="padding: 105px 120px 0;">
+        <h2 style="background: none;margin-top: 100px;">Le VO Nullable</h2>
+        <img src="pictures/pasBon.png" alt="" style="width: 100%;">
+    </div></section>
+
+
+
+
+    <div class="progress"><div></div></div>
 	<script src="shower/shower.min.js"></script>
 	<script src="styles/prism.js"></script>
 	<script src="styles/jquery-2.1.1.min.js"></script>
