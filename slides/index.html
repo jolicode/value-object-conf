@@ -357,10 +357,131 @@ $maker->getCurrentCapsule()->getType()->setName('Ristretto'); // NO!!</code></pr
         <ul>
             <li>Une instance de <code>CapsuleType</code> ne peux pas se retrouver dans un état invalide (couleur manquante par exemple) ;</li>
             <li>Changer la valeur d'un VO doit revenir a changer d'objet ;</li>
-            <li>Si le VO est utilisé dans une autre entité, il n'y a pas d'effets de bords&nbsp;;</li>
-            <li>Ils sont plus facile a tester ;</li>
+            <li>Si le VO est utilisé ailleurs, il n'y a pas d'effets de bords&nbsp;;</li>
             <li>Si la classe évolue, ça casse l'existant (c'est voulu).</li>
         </ul>
+    </div></section>
+
+
+    <section class="slide"><div>
+        <h2>Pourquoi immutable</h2>
+
+        <p>Une cafetière peut changer de Capsule, d'état (allumé, éteind), d'emplacement (cuisine, WC). Elle sera toujours <strong>la même cafetière</strong>.
+            C'est une entité.</p>
+
+        <p><strong>Mais le type de capsule Roma, si on change sa couleur, ce n'est plus le même type.</strong></p>
+    </div></section>
+
+
+    <section class="slide"><div>
+        <h2>Rendre un objet PHP immutable</h2>
+
+        <pre><code class="language-php">class CapsuleType
+{
+    private $name; // Privé, sans setter
+
+    public function __construct($name)
+    {
+        $this->name = $name;
+    }
+}</code></pre>
+    </div></section>
+
+
+    <section class="slide"><div>
+        <h2>Trop permissif</h2>
+
+        <pre><code class="language-php">class MyFlexibleCapsuleType extends CapsuleType
+{
+    private $name;
+
+    public function setName($name) {
+        $this->name = $name;
+    }
+}
+</code></pre>
+    </div></section>
+
+
+    <section class="slide"><div>
+        <h2>Mot clé final</h2>
+
+        <pre><code class="language-php">final class CapsuleType // final = no extends
+{
+    private $name;
+
+    public function __construct($name)
+    {
+        $this->name = $name;
+    }
+}</code></pre>
+    </div></section>
+
+
+    <section class="slide"><div>
+        <h2>Toujours trop permissif !</h2>
+
+        <pre><code class="language-php">$roma = new CapsuleType($roma);
+
+// Malicious code…
+$roma->__construct("HAHA");
+
+// var_dump($roma);
+
+class CapsuleType#5 (1) {
+    private $name => string(4) "HAHA"
+}</code></pre>
+    </div></section>
+
+
+    <section class="slide cover"><div>
+        <img src="pictures/blown.gif" style="width: 100%; margin-top: 10%;" alt="">
+    </div></section>
+
+
+
+    <section class="slide"><div>
+        <h2>Faire du "vrai" immutable</h2>
+
+        <pre><code class="language-php">final class CapsuleType
+{
+    private $name;
+
+    private function __construct() {} // Pas de constructeur
+
+    public static function fromName($name) // Une statique
+    {
+        $type = new CapsuleType();
+        $type>name = $name;
+
+        return $type;
+    }
+}</code></pre>
+    </div></section>
+
+    <section class="slide"><div>
+        <h2>Enfin !</h2>
+
+        <pre><code class="language-php">$capsuleType = CapsuleType::fromName("Roma");</code></pre>
+
+        <p>Ou pas...</p>
+    </div></section>
+
+    <section class="slide"><div>
+        <h2>On est en PHP 😜</h2>
+
+        <pre><code class="language-php">$refObject   = new ReflectionObject($roma);
+$refProperty = $refObject->getProperty('name');
+$refProperty->setAccessible(true);
+$refProperty->setValue($one, 'Trolololol');</code></pre>
+
+        <p>Mais on s'égare...</p>
+    </div></section>
+
+    <section class="slide"><div>
+        <h2>Immutable c'est dans la tête <span>surtout en PHP</span></h2>
+
+        <p>Communiquez, documentez, adoptez une convention, un namespace… Ne laissez pas vos collègues implémenter un setter et tout ira bien.</p>
     </div></section>
 
 	<div class="progress"><div></div></div>
