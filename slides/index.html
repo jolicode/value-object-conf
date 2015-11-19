@@ -30,7 +30,7 @@
                 <ul>
                     <li>Agence spécialisé dans le développement de projet web et mobile de qualité ;</li>
                     <li>Arte, Mediapart, Arianespace, Canal Plus...</li>
-                    <li>Équipe a taille humaine, change de job en <a href="http://jolicode.com/jobs" class="blink">cliquant ici</a>.</li>
+                    <li>Équipe à taille humaine, change de job en <a href="http://jolicode.com/jobs" class="blink">cliquant ici</a>.</li>
                 </ul>
             </li>
 			<li><a href="https://twitter.com/damienalexandre">@damienalexandre</a> sur Twitter &amp; Github ;</li>
@@ -41,7 +41,7 @@
 	<section class="slide"><div>
 		<h2>Bonjour 2015</h2>
 		<ul>
-			<li>On ne fait plus de procédural ;</li>
+			<li>On ne fait plus de full procédural ;</li>
 			<li>Nos modèles de données sont riches ;</li>
 			<li>On utilise la POO tous les jours ;</li>
 			<li class="next">... au prix d'applications plus complexes.</li>
@@ -52,7 +52,7 @@
 		<h2>Ajout de phases de conception</h2>
 		<ul>
 			<li>On réfléchie avant de coder ;</li>
-			<li>On utilise des plan de conception :
+			<li>On utilise des plans de conception :
                 <ul>
                     <li>respectant le besoin fonctionnel ;</li>
                     <li>permettant l'évolution sans remise en cause ;</li>
@@ -73,8 +73,9 @@
 			<li>Tous le monde en a déjà entendu parlé ;</li>
             <li class="next">Personne ne sait trop ce que c'est ;</li>
 			<li class="next">DDD n'est pas une techno ni une méthode de développement ;</li>
-			<li class="next">DDD est un <strong>ensemble de pratiques</strong>, fondé sur la collaboration entre expert fonctionnels ;</li>
-            <li class="next">DDD est une manière de penser et de communiquer les problèmes et leurs solutions, entre les équipes techniques et fonctionnelles.</li>
+			<li class="next">DDD est un <strong>ensemble de pratiques</strong>, fondé sur la collaboration entre experts fonctionnels ;</li>
+            <li class="next">DDD est une manière de penser et de communiquer les problèmes et leurs solutions,
+                entre les équipes techniques et fonctionnelles.</li>
         </ul>
 	</div></section>
 
@@ -88,9 +89,12 @@
         <p>Allez plutôt voir :</p>
 
         <img src="pictures/alexandre-balmes.jpg" alt="Alexandre Balmes" style="display: block;height: 50%; float: left; margin-right: 10px;" />
-        <p><strong>CHRONIQUE D'UN PROJET DRIVEN DESIGN</strong>
+
+        <p>
+            <strong>CHRONIQUE D'UN PROJET DRIVEN DESIGN</strong>
             <br>par Alexandre Balmes<br/>
-            <small>le 23 à 14h dans l'Auditorium Lucienne et André Blin</small></p>
+            <small>le 23 à 14h dans l'Auditorium Lucienne et André Blin</small>
+        </p>
     </div></section>
 
     <section class="slide"><div>
@@ -98,8 +102,8 @@
 
         <ul>
             <li>Un des outils fondamentaux du DDD ;</li>
-            <li>On en fait des caisse mais en fait c'est tout simple ;</li>
-            <li>La seule chose a retenir du DDD ? <img src="pictures/trollface.svg" alt="Trollface" style="height: 1.5em;"></li>
+            <li>On en fait des caisses mais en fait c'est tout simple ;</li>
+            <li class="next">La seule chose a retenir du DDD ? <img src="pictures/trollface.svg" alt="Trollface" style="height: 1.5em;"></li>
         </ul>
 	</div></section>
 
@@ -107,14 +111,14 @@
 		<h2>Le VO <span>C'est son petit nom :)</span></h2>
 
         <ul>
-            <li>Un objet qui contient des données ;
+            <li>Un objet qui contient des données :
                 <ul>
-                    <li>Musures ;</li>
+                    <li>Mesures ;</li>
                     <li>Quantités ;</li>
                     <li>Descriptions ;</li>
                 </ul>
             </li>
-            <li>Il n'a pas d'identité (contrairement à l'Entité) ;</li>
+            <li>Il n'a pas d'identité (contrairement à l'entité) ;</li>
             <li>Il est immutable ;</li>
             <li>Son identité est basée sur son contenu.</li>
         </ul>
@@ -164,7 +168,7 @@ $maker->setCurrentCapsule(
     // ??? Wat ???
 );</code></pre>
 
-        <p>Une capsule posséde un nom, un arôme, une couleur... et une identité.</p>
+        <p>Une capsule possède un nom, un arôme, une couleur... et une identité.</p>
 	</div></section>
 
     <section class="slide"><div>
@@ -183,13 +187,26 @@ $maker->setCurrentCapsule(
         <h2>MAIS</h2>
 
         <ul>
-            <li>name, color, intensity… décrivent une capsule ;</li>
+            <li>name, color, intensity... décrivent une capsule ;</li>
             <li>la validation de la couleur serait le rôle de la Capsule ?! Viole le principe de Simple Responsability ;</li>
             <li>difficulté de réutilisation : si je veux un objet User, qui aurait un type de capsule préférée ?</li>
-            <li>mélange des préocupations.</li>
+            <li>grand mélange des préocupations.</li>
         </ul>
 
-        <p>On tient notre candidat pour devenir un VO !</p>
+        <p>Et si on en faisait un VO !</p>
+    </div></section>
+
+
+    <section class="slide"><div>
+        <h2>Notre VO CapsuleType !</h2>
+
+        <ul>
+            <li>Il va contenir toute l'intelligence d'un type de capsule de café, tout est encapsulé (badum tsss!) ;</li>
+            <li>Nous allons y mettre la validation (couleur valide, etc) ;</li>
+            <li>Il est réutilisable, pour d'autres objets qui auraient besoin d'un type de capsule (User) ;</li>
+            <li>Il peut contenir des méthodes / comportements propres aux types de capsules (<code>isDecaf()</code>)...</li>
+            <li>C'est aussi pour facile à tester et à maintenir !</li>
+        </ul>
     </div></section>
 
 
@@ -208,21 +225,9 @@ $capsule->setType(
     new CapsuleType("JoliBrew")
 );
 
-$maker->setCurrentCapsule($capsule);
-</code></pre>
+$maker->setCurrentCapsule($capsule);</code></pre>
     </div></section>
 
-    <section class="slide"><div>
-        <h2>Notre VO CapsuleType !</h2>
-
-        <ul>
-            <li>Il va contenir toute l'intelligence d'un type de capsule de café, tout est encapsulé (badum tsss!) ;</li>
-            <li>Nous allons y mettre la validation (couleur valide, etc) ;</li>
-            <li>Il est réutilisable, pour d'autres objets qui auraient besoin d'un type de capsule (User) ;</li>
-            <li>Il peut contenir des méthodes / comportements propres aux types de capsules (<code>isDecaf()</code>)...</li>
-            <li>C'est aussi pour facile à tester et à maintenir !</li>
-        </ul>
-    </div></section>
 
     <section class="slide"><div>
         <h2>CapsuleType n'a pas d'identité</h2>
@@ -340,7 +345,7 @@ $maker->getCurrentCapsule(); // Notre Capsule
 $maker->getCurrentCapsule()->getType(); // Notre CapsuleType
 $maker->getCurrentCapsule()->getType()->setName('Ristretto'); // NO!!</code></pre>
 
-        <p>On va utiliser une autre instance de <code>CapsuleType</code> : <strong>toujours</strong>.</p>
+        <p>On va <strong>toujours</strong> utiliser une autre instance de <code>CapsuleType</code> !</p>
     </div></section>
 
     <section class="slide cover"><div>
@@ -352,11 +357,11 @@ $maker->getCurrentCapsule()->getType()->setName('Ristretto'); // NO!!</code></pr
     <section class="slide"><div>
         <h2>Immutabilité</h2>
 
-        <p>Le propre d'un VO est d'être immutable : vous ne pouvez pas en changer le contenu. C'est super important.</p>
+        <p>Le propre d'un VO est d'être immutable : vous ne <del>pouvez</del> devez pas en changer le contenu. C'est super important.</p>
 
         <ul>
             <li>Une instance de <code>CapsuleType</code> ne peux pas se retrouver dans un état invalide (couleur manquante par exemple) ;</li>
-            <li>Changer la valeur d'un VO doit revenir a changer d'objet ;</li>
+            <li>Changer la valeur d'un VO doit revenir à changer d'objet ;</li>
             <li>Si le VO est utilisé ailleurs, il n'y a pas d'effets de bords&nbsp;;</li>
             <li>Si la classe évolue, ça casse l'existant (c'est voulu).</li>
         </ul>
@@ -366,7 +371,7 @@ $maker->getCurrentCapsule()->getType()->setName('Ristretto'); // NO!!</code></pr
     <section class="slide"><div>
         <h2>Pourquoi immutable</h2>
 
-        <p>Une cafetière peut changer de Capsule, d'état (allumé, éteind), d'emplacement (cuisine, WC). Elle sera toujours <strong>la même cafetière</strong>.
+        <p>Une cafetière peut changer de Capsule, d'état (allumé, éteinte), d'emplacement (cuisine, WC). Elle sera toujours <strong>la même cafetière</strong>.
             C'est une entité.</p>
 
         <p><strong>Mais le type de capsule Roma, si on change sa couleur, ce n'est plus le même type.</strong></p>
@@ -497,8 +502,8 @@ $refProperty->setValue($one, 'Trolololol');</code></pre>
         <p>Je suis là pour vous parler de Doctrine, deux stratégies :</p>
 
         <ul>
-            <li>Utiliser Embeddable ;</li>
-            <li>Utiliser le type "object".</li>
+            <li>Utiliser <code>Embeddable</code> ;</li>
+            <li>Utiliser le type <code>object</code>.</li>
         </ul>
     </div></section>
 
@@ -509,8 +514,8 @@ $refProperty->setValue($one, 'Trolololol');</code></pre>
 
         <ul>
             <li>Utilise <code>serialize/unserialize</code> pour stocker vos VO ;</li>
-            <li>Pas possible de requêter sur les propriétés de l'objet ;</li>
-            <li>Refactoring complexe (namespace en dur) ;</li>
+            <li>Vous laisse totalement la main sur ce que contient le champ ;</li>
+            <li>Totalement transparent pour le développeur ;</li>
             <li>Présent depuis les débuts de Doctrine.</li>
         </ul>
     </div></section>
@@ -542,7 +547,7 @@ class User
     </div></section>
 
     <section class="slide"><div>
-        <h2>Attention a bien forcer un type</h2>
+        <h2>Attention à bien forcer un type</h2>
 
         <pre><code class="language-php">/**
  * @param CapsuleType $type
@@ -625,8 +630,8 @@ class Model\User {
 
         <ul>
             <li>Pas de requête possible sur les champs du VO ;</li>
-            <li>sérialisation PHP, non standard, non intéropérable ;</li>
-            <li>couplage fort, impossible de renommer la classe par exemple.</li>
+            <li>Sérialisation PHP, non standard, non intéropérable ;</li>
+            <li>Couplage fort, impossible de renommer la classe par exemple.</li>
         </ul>
     </div></section>
 
@@ -660,7 +665,7 @@ final class CapsuleType
     public static function fromValues($name)
     {
         $type = new CapsuleType();
-        $type->name = $name;
+        $type->name = $name; // ...
         return $type;
     }
 }</code></pre>
@@ -791,7 +796,7 @@ $queryBuilder->where('u.favoriteCapsuleType.name = :name');
 $queryBuilder->setParameter('name', 'Ristretto');</code></pre>
 
         <p>On n'utilise pas <code>favoriteCapsuleType_name</code>,<br >
-            mais bien à <code>User->favoriteCapsuleType->name</code> !</p>
+            mais bien <code>User->favoriteCapsuleType->name</code> !</p>
 
         <p>Et on peut faire des recherches sur les champs du VO.</p>
     </div></section>
@@ -980,7 +985,7 @@ $qb->setParameter('has', true);</code></pre>
         <h2>Quelques inconvénients</h2>
 
         <ul>
-            <li>Doctrine va toujours hydrater le VO ;</li>
+            <li>Doctrine va toujours hydrater le VO, même si "null" ;</li>
             <li>Il faut quand même rendre tous les champs <code>nullable</code>.</li>
         </ul>
     </div></section>
@@ -993,9 +998,102 @@ $qb->setParameter('has', true);</code></pre>
 
         <pre><code class="language-php">@Embedded(class="CapsuleType", nullable=true)</code></pre>
 
-        <p>Votez : <a href="https://github.com/doctrine/doctrine2/pull/1275">https://github.com/doctrine/doctrine2/pull/1275</a>.</p>
+        <p>Votez avec vos pouces : <a href="https://github.com/doctrine/doctrine2/pull/1275">https://github.com/doctrine/doctrine2/pull/1275</a>.</p>
     </div></section>
 
+
+    <section class="slide cover"><div>
+        <h2 style="left: -40px;">Conclusion</h2>
+        <img src="pictures/final.jpg" alt="">
+    </div></section>
+
+
+
+    <section class="slide"><div>
+        <h2>Quand utiliser un VO ?</h2>
+
+        <p style="margin-bottom: 10px;">Posez vous les bonnes questions. Votre objet :</p>
+
+        <ul>
+            <li>Mesure, quantifie, décrit ?</li>
+            <li>Peut rester immutable ?</li>
+            <li>Représente une brique atomique de votre domaine ?</li>
+            <li>Est remplaçable intégralement ?</li>
+            <li>Se compare aux autres par sa valeur ?</li>
+            <li>Est sans effets de bord ?</li>
+            <li class="next"><strong>Vous tenez un bon candidat !</strong></li>
+        </ul>
+    </div></section>
+
+
+
+
+    <section class="slide"><div>
+        <h2>Comment persister un VO ?</h2>
+
+        <ul>
+            <li>Avec le type <code>object</code> :
+                <ul>
+                    <li>Doctrine < 2.5 ;</li>
+                    <li>Pas besoin de requêter ;</li>
+                    <li>Pas de rigueur ;</li>
+                </ul>
+            </li>
+            <li>Avec <code>Embedded</code> ♥ ♥ ♥ :
+                <ul>
+                    <li>Dans tous les autres cas !</li>
+                    <li>Avec un peu de code userland si vous voulez du vrai nullable.</li>
+                </ul>
+            </li>
+        </ul>
+    </div></section>
+
+
+    <section class="slide"><div>
+        <h2>Détendez-vous</h2>
+
+        <ul>
+            <li>PHP ne propose pas d'objets d'immutables ;</li>
+            <li>Votre ORM va faire des doublons ;</li>
+            <li>...</li>
+        </ul>
+
+        <ul>
+            <li class="next">Ce n'est pas grave.</li>
+            <li class="next">Votre domaine va gagner en consistence et maintenabilité.</li>
+            <li class="next">Ne soyez pas trop dur avec vous même.</li>
+        </ul>
+    </div></section>
+
+    <section class="slide shout"><div>
+        <h2>
+            The End
+
+            <span>À vos questions ! <small style="font-size: 0.2em; display: block;">(Validation ? Form ? VO dans un VO ?)</small></span>
+
+            <p style="font-size: 25px; line-height: 40px;">
+                <a href="https://twitter.com/damienalexandre">@damienalexandre</a><br/>
+            </p>
+        </h2>
+    </div></section>
+
+
+    <section class="slide"><div>
+        <h2>Crédits &amp; bisous</h2>
+
+        <ul>
+            <li>Merci Mathieu Darse pour son aide ;</li>
+            <li>Merci George Clooney pour son image ;</li>
+            <li>Typo ? Sources ? Démo PHP ? Tout est <a href="https://github.com/jolicode/value-object-conf">sur Github</a>.</li>
+        </ul>
+
+        <p style="text-align: center;"><img src="pictures/logo.svg" style="height:3em; vertical-align: text-bottom;"></p>
+
+        <p>
+            <small>The trademarks, trade names or other distinctive brand features of Nespresso ("Trademarks")
+                displayed on the slideshow are the exclusive property of Nespresso and/or Nestlé.</small>
+        </p>
+    </div></section>
 
     <div class="progress"><div></div></div>
 	<script src="shower/shower.min.js"></script>

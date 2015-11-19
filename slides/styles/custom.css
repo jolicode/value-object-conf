@@ -185,7 +185,7 @@ blockquote {
 .list .slide.shout>div:before,
 .full .slide.shout>div:before,
 .list .slide.cover div.progressbar,
-.list .slide.shout div.progressbar {
+.slide.shout div.progressbar {
     display: none;
 }
 
