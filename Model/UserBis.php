@@ -26,7 +26,7 @@ class UserBis
      *
      * @var CapsuleType
      *
-     * @Column(type="object", nullable=true)
+     * @Column(type="object")
      */
     private $favoriteCapsuleTypeAsObject;
 
@@ -65,7 +65,7 @@ class UserBis
     /**
      * @param CapsuleType $favoriteCapsuleTypeAsObject
      */
-    public function setFavoriteCapsuleTypeAsObject(CapsuleType $favoriteCapsuleTypeAsObject)
+    public function setFavoriteCapsuleTypeAsObject(CapsuleType $favoriteCapsuleTypeAsObject = null)
     {
         $this->favoriteCapsuleTypeAsObject = $favoriteCapsuleTypeAsObject;
     }

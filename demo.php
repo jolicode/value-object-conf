@@ -101,7 +101,7 @@ sep("User with favorite type as object persisted");
 var_dump($damien);
 
 $loick = new UserBis();
-$loick->setName('Loick');
+$loick->setName('Loïck');
 
 try {
     $entityManager->persist($loick);
@@ -110,11 +110,17 @@ try {
     var_dump($loick);
 } catch (\Exception $e) {
     echo $e->getMessage();
-
-    /**
-     * We can't save the user without the VO :-(
-     */
 }
+
+// Fetch NULL capsuleTye on UserBis
+$entityManager->clear();
+$qb = $entityManager->createQueryBuilder();
+$qb->from(UserBis::class, 'u')->select('u')->where('u.favoriteCapsuleTypeAsObject = :nope');
+$qb->setParameter('nope', 'N;'); // CRAPPY!!!
+
+sep("UserBis fetched from DQL");
+var_dump($qb->getQuery()->getOneOrNullResult());
+
 
 $loick = new User();
 $loick->setName('Loick');

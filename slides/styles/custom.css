@@ -189,9 +189,9 @@ blockquote {
     display: none;
 }
 
-.slide table td, .slide table th[scope="col"] {
+/*.slide table td, .slide table th[scope="col"] {
     text-align: center;
-}
+}*/
 
 .check {
     height: 24px;

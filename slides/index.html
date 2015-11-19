@@ -821,6 +821,181 @@ $queryBuilder->setParameter('name', 'Ristretto');</code></pre>
 
 
 
+    <section class="slide"><div>
+        <h2>Loïck n'aime pas le café</h2>
+
+        <pre><code class="language-php">$loick = new User();
+$loick>setFavoriteCapsuleType(null); // Aucun type de capsule préféré</code></pre>
+
+        <p><blockquote>SQLSTATE[23000]: Integrity constraint violation: 1048 Column 'favoriteCapsuleType' cannot be null</blockquote></p>
+    </div></section>
+
+
+
+    <section class="slide"><div>
+        <h2>Nullable à la rescousse</h2>
+
+        <pre><code class="language-php">/** @Entity */
+class User
+{
+    /**
+     * @var CapsuleType
+     * @Column(type="object", nullable=true)
+     */
+    private $favoriteCapsuleType;
+}</code></pre>
+    </div></section>
+
+
+
+    <section class="slide"><div>
+        <h2>Moyen supporté avec le type <code>object</code></h2>
+
+
+        <table>
+            <tr>
+                <th scope="col">id</th>
+                <th>name</th>
+                <th>favoriteCapsuleType</th>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>Damien</td>
+                <td>O:17:"Model\CapsuleType"...</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>Loick</td>
+                <td>N;</td>
+            </tr>
+        </table>
+
+
+        <ul>
+            <li>Même vide, le champ est sérialisé, et <code>serialize(NULL)</code> === <code>N;</code> ;</li>
+            <li>Dans vos Query, vous ne pouvez pas utiliser <code>WHERE x IS NULL</code> ;</li>
+            <li><code>nullable=true</code> ne sert à rien sur un type <code>object</code>.</li>
+        </ul>
+    </div></section>
+
+
+    <section class="slide"><div>
+        <h2>Non supporté avec <code>Embedded</code></h2>
+
+        <ul>
+            <li>Pas d'option <code>nullable</code> sur <code>@Embedded</code> ;</li>
+            <li>Donc on met <code>nullable</code> sur tous les champs du <code>@Embeddable</code> 😞
+
+                <ul>
+                    <li>Augmente le risque de VO invalide ;</li>
+                    <li>Comment savoir si le VO est vide, ou si il n'existe pas ?</li>
+                    <li>Comment faire un WHERE sur la nullité ? Il faut tester tous les champs ?</li>
+                </ul>
+            </li>
+        </ul>
+    </div></section>
+
+
+    <section class="slide"><div>
+        <h2>Rendre tous les champs du VO nullable</h2>
+
+        <pre><code class="language-php">// Résultat d'une Query
+
+class Model\User {
+    private $id => int(1)
+    private $name => string(5) "Loick"
+    private $favoriteCapsuleType => class Model\CapsuleType {
+        private $name => NULL
+    }
+}</code></pre>
+
+        <p>On récupère une instance invalide de CapsuleType depuis l'ORM.</p>
+    </div></section>
+
+
+
+    <section class="slide"><div>
+        <h2>Code userland à la rescousse !</h2>
+
+        <pre><code class="language-php">/** @Entity */
+class User
+{
+    /**
+     * @Column(type="boolean")
+     */
+    private $hasFavoriteCapsuleType = false;
+
+    /**
+     * @Embedded(class="CapsuleType")
+     */
+    private $favoriteCapsuleType;</code></pre>
+
+        <p>On ajoute un boolean <code>hasFavoriteCapsuleType</code>.</p>
+    </div></section>
+
+
+
+    <section class="slide"><div style="padding: 40px 60px; width: 900px;">
+        <h2>Ajout de logique dans les getter / setter</h2>
+
+        <pre><code class="language-php">/**
+ * @return CapsuleType|null
+ */
+public function getFavoriteCapsuleType()
+{
+    return $this->hasFavoriteCapsuleType() ? $this->favoriteCapsuleType : null;
+}
+
+/**
+ * @param CapsuleType|null $favoriteCapsuleType
+ */
+public function setFavoriteCapsuleType(CapsuleType $favoriteCapsuleType = null)
+{
+    $this->favoriteCapsuleType      = $favoriteCapsuleType;
+    $this->hasFavoriteCapsuleType   = $favoriteCapsuleType ? true : false;
+}
+</code></pre>
+    </div></section>
+
+
+    <section class="slide"><div>
+        <h2>Beaucoup de code mais plein d'avantages !</h2>
+
+        <pre><code class="language-php">$qb = $entityManager->createQueryBuilder();
+$qb->from(User::class, 'u')->select('u')
+   ->where('u.hasFavoriteCapsuleType = :has');
+$qb->setParameter('has', true);</code></pre>
+
+        <ul>
+            <li>Requête simplifiée (on ne test que le boolean) ;</li>
+            <li>Le getter nous retourne ce que nous voulons ;</li>
+            <li>Interopérable ;</li>
+            <li>Le meilleur des deux mondes !</li>
+        </ul>
+    </div></section>
+
+
+
+    <section class="slide"><div>
+        <h2>Quelques inconvénients</h2>
+
+        <ul>
+            <li>Doctrine va toujours hydrater le VO ;</li>
+            <li>Il faut quand même rendre tous les champs <code>nullable</code>.</li>
+        </ul>
+    </div></section>
+
+
+    <section class="slide"><div>
+        <h2>Mon rêve</h2>
+
+        <p>Que l'ORM gère ça pour nous !</p>
+
+        <pre><code class="language-php">@Embedded(class="CapsuleType", nullable=true)</code></pre>
+
+        <p>Votez : <a href="https://github.com/doctrine/doctrine2/pull/1275">https://github.com/doctrine/doctrine2/pull/1275</a>.</p>
+    </div></section>
+
 
     <div class="progress"><div></div></div>
 	<script src="shower/shower.min.js"></script>
