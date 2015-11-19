@@ -426,7 +426,7 @@ $maker->getCurrentCapsule()->getType()->setName('Ristretto'); // NO!!</code></pr
     <section class="slide"><div>
         <h2>Toujours trop permissif !</h2>
 
-        <pre><code class="language-php">$roma = new CapsuleType($roma);
+        <pre><code class="language-php">$roma = new CapsuleType('Roma');
 
 // Malicious code…
 $roma->__construct("HAHA");
