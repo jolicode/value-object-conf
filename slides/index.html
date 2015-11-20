@@ -457,7 +457,7 @@ class CapsuleType#5 (1) {
     public static function fromName($name) // Une statique
     {
         $type = new CapsuleType();
-        $type>name = $name;
+        $type->name = $name;
 
         return $type;
     }
@@ -584,7 +584,7 @@ public function setFavoriteCapsuleType(CapsuleType $type)
         <pre><code class="language-php">$ristretto = CapsuleType::fromValues('Ristretto');
 
 $user   = new User();
-$user>setFavoriteCapsuleType($ristretto);
+$user->setFavoriteCapsuleType($ristretto);
 
 $entityManager->persist($user);
 $entityManager->flush();</code></pre>
@@ -592,7 +592,7 @@ $entityManager->flush();</code></pre>
 
 
     <section class="slide"><div>
-        <h2>En base de donnée</h2>
+        <h2>En base de données</h2>
 
         <table>
             <tr>
@@ -744,7 +744,7 @@ $entityManager->flush();</code></pre>
 
 
     <section class="slide"><div>
-        <h2>En base de donnée</h2>
+        <h2>En base de données</h2>
 
         <table>
             <tr>
