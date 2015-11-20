@@ -28,7 +28,7 @@
 		<ul>
 			<li>Expert PHP &amp; Elasticsearch pour <img src="pictures/logo.svg" style="height:2em; vertical-align: text-bottom;">
                 <ul>
-                    <li>Agence spécialisé dans le développement de projet web et mobile de qualité ;</li>
+                    <li>Agence spécialisée dans le développement de projets web et mobiles de qualité ;</li>
                     <li>Arte, Mediapart, Arianespace, Canal Plus...</li>
                     <li>Équipe à taille humaine, change de job en <a href="http://jolicode.com/jobs" class="blink">cliquant ici</a>.</li>
                 </ul>
@@ -51,7 +51,7 @@
 	<section class="slide"><div>
 		<h2>Ajout de phases de conception</h2>
 		<ul>
-			<li>On réfléchie avant de coder ;</li>
+			<li>On réfléchit avant de coder ;</li>
 			<li>On utilise des plans de conception :
                 <ul>
                     <li>respectant le besoin fonctionnel ;</li>
@@ -70,10 +70,10 @@
         </h2>
 
 		<ul>
-			<li>Tous le monde en a déjà entendu parlé ;</li>
+			<li>Tout le monde en a déjà entendu parler ;</li>
             <li class="next">Personne ne sait trop ce que c'est ;</li>
 			<li class="next">DDD n'est pas une techno ni une méthode de développement ;</li>
-			<li class="next">DDD est un <strong>ensemble de pratiques</strong>, fondé sur la collaboration entre experts fonctionnels ;</li>
+			<li class="next">DDD est un <strong>ensemble de pratiques</strong>, fondées sur la collaboration entre experts fonctionnels ;</li>
             <li class="next">DDD est une manière de penser et de communiquer les problèmes et leurs solutions,
                 entre les équipes techniques et fonctionnelles.</li>
         </ul>
@@ -103,7 +103,7 @@
         <ul>
             <li>Un des outils fondamentaux du DDD ;</li>
             <li>On en fait des caisses mais en fait c'est tout simple ;</li>
-            <li class="next">La seule chose a retenir du DDD ? <img src="pictures/trollface.svg" alt="Trollface" style="height: 1.5em;"></li>
+            <li class="next">La seule chose à retenir du DDD ? <img src="pictures/trollface.svg" alt="Trollface" style="height: 1.5em;"></li>
         </ul>
 	</div></section>
 
@@ -188,9 +188,9 @@ $maker->setCurrentCapsule(
 
         <ul>
             <li>name, color, intensity... décrivent une capsule ;</li>
-            <li>la validation de la couleur serait le rôle de la Capsule ?! Viole le principe de Simple Responsability ;</li>
+            <li>la validation de la couleur serait le rôle de la Capsule ?! Casse le principe de Simple Responsability ;</li>
             <li>difficulté de réutilisation : si je veux un objet User, qui aurait un type de capsule préférée ?</li>
-            <li>grand mélange des préocupations.</li>
+            <li>grand mélange des préoccupations.</li>
         </ul>
 
         <p>Et si on en faisait un VO !</p>
@@ -201,10 +201,10 @@ $maker->setCurrentCapsule(
         <h2>Notre VO CapsuleType !</h2>
 
         <ul>
-            <li>Il va contenir toute l'intelligence d'un type de capsule de café, tout est encapsulé (badum tsss!) ;</li>
+            <li>Il va contenir toute l'intelligence d'un type de capsule de café, tout est encapsulé (*badum tsss!*) ;</li>
             <li>Nous allons y mettre la validation (couleur valide, etc) ;</li>
             <li>Il est réutilisable, pour d'autres objets qui auraient besoin d'un type de capsule (User) ;</li>
-            <li>Il peut contenir des méthodes / comportements propres aux types de capsules (<code>isDecaf()</code>)...</li>
+            <li>Il peut contenir des méthodes / comportements propres aux types de capsules (<code>isDecaffeinato()</code>)...</li>
             <li>C'est aussi plus facile à tester et à maintenir !</li>
         </ul>
     </div></section>
@@ -220,8 +220,7 @@ $maker->setCurrentCapsule(
     private $intensity;
 }
 
-$capsule = new Capsule();
-$capsule->setType(
+$capsule = new Capsule(
     new CapsuleType("JoliBrew")
 );
 
@@ -243,7 +242,7 @@ $maker->setCurrentCapsule($capsule);</code></pre>
     <section class="slide"><div>
         <h2>La Capsule a une identité</h2>
 
-        <p><strong>La Capsule est identifiée</strong>, deux Capsules du même type ne sont pas considéré comme étant la même : elles
+        <p><strong>La Capsule est identifiée</strong>, deux Capsules du même type ne sont pas considérées comme étant la même : elles
             se manipulent, se suppriment, se consomment - elles ont une vie propre dans notre domaine.</p>
 
         <p>Capsule est une entité. Tout comme CoffeeMaker.</p>
@@ -252,10 +251,9 @@ $maker->setCurrentCapsule($capsule);</code></pre>
     <section class="slide"><div>
         <h2>L'exemple complet</h2>
 
-<pre><code class="language-php">$roma  = new CapsuleType('Roma', 'purple', 'intense et crémeux', 9);
+<pre><code class="language-php">$roma  = new CapsuleType('Roma', 'purple', 9);
 
-$capsule = new Capsule();
-$capsule->setType($roma);
+$capsule = new Capsule($roma);
 
 $maker = new CoffeeMaker();
 $maker->setModel('Magimix 42');
@@ -304,8 +302,7 @@ var_dump($one === $two); // false
 
         <p>On compare donc nos VO avec <code>==</code> et on assume.</p>
 
-        <small>Vous pouvez aussi écrire une méthode <code>isEqual()</code> si vous avez trop de temps libre
-            et que vous aimez réinventer la roue (ou si vous faite de l'héritage de VO).</small>
+        <p>Ou avec une méthode userland <code>isEqual()</code> si vous voulez aussi comparer les types et faire de l'héritage de VO.</p>
     </div></section>
 
     <section class="slide"><div>
@@ -314,13 +311,13 @@ var_dump($one === $two); // false
         <pre><code class="language-php">$roma = new CapsuleType('Roma', 'purple', 'intense et crémeux', 9);</code></pre>
 
         <p>
-            Dans un monde idéal, toutes les capsule Roma seraient représenté par la même <strong>instance</strong> de CapsuleType.<br />
+            Dans un monde idéal, toutes les capsule Roma seraient représentées par la même <strong>instance</strong> de CapsuleType.<br />
             Dans la vraie vie, ce n'est pas le cas :
         </p>
         <ul>
             <li>on code comme des pieds ;</li>
             <li>notre ORM ne gère pas les VO ;</li>
-            <li>c'est pénible de se trainer des instances partout.</li>
+            <li>c'est pénible de se traîner des instances partout.</li>
         </ul>
     </div></section>
 
@@ -360,9 +357,9 @@ $maker->getCurrentCapsule()->getType()->setName('Ristretto'); // NO!!</code></pr
         <p>Le propre d'un VO est d'être immutable : vous ne <del>pouvez</del> devez pas en changer le contenu. C'est super important.</p>
 
         <ul>
-            <li>Une instance de <code>CapsuleType</code> ne peux pas se retrouver dans un état invalide (couleur manquante par exemple) ;</li>
+            <li>Une instance de <code>CapsuleType</code> ne peut pas se retrouver dans un état invalide (couleur manquante par exemple) ;</li>
             <li>Changer la valeur d'un VO doit revenir à changer d'objet ;</li>
-            <li>Si le VO est utilisé ailleurs, il n'y a pas d'effets de bords&nbsp;;</li>
+            <li>Si le VO est utilisé ailleurs, il n'y a pas d'effet de bord&nbsp;;</li>
             <li>Si la classe évolue, ça casse l'existant (c'est voulu).</li>
         </ul>
     </div></section>
@@ -371,7 +368,7 @@ $maker->getCurrentCapsule()->getType()->setName('Ristretto'); // NO!!</code></pr
     <section class="slide"><div>
         <h2>Pourquoi immutable</h2>
 
-        <p>Une cafetière peut changer de Capsule, d'état (allumé, éteinte), d'emplacement (cuisine, WC). Elle sera toujours <strong>la même cafetière</strong>.
+        <p>Une cafetière peut changer de Capsule, d'état (allumée, éteinte), d'emplacement (cuisine, WC). Elle sera toujours <strong>la même cafetière</strong>.
             C'est une entité.</p>
 
         <p><strong>Mais le type de capsule Roma, si on change sa couleur, ce n'est plus le même type.</strong></p>
@@ -640,12 +637,12 @@ class Model\User {
         <h2>Introducing Embeddable !</h2>
 
         <ul>
-            <li>Nouvelle fonctionnalité mergé le 8 février 2014 ;</li>
+            <li>Nouvelle fonctionnalité mergée le 8 février 2014 ;</li>
             <li class="next">Released le 2 avril 2015 !</li>
             <li>Uniquement disponible dans Doctrine >= 2.5 donc ;</li>
             <li><code>@Embedded</code> et <code>@Embeddable</code> ;</li>
             <li>Copie les champs du VO dans la table de l'entité ;</li>
-            <li>Similaire a Hibernate Embedded.</li>
+            <li>Similaire à Hibernate Embedded.</li>
         </ul>
     </div></section>
 
@@ -812,8 +809,8 @@ $queryBuilder->setParameter('name', 'Ristretto');</code></pre>
                     <li><code>fromValues()</code></li>
                 </ul>
             </li>
-            <li>Peux provoquer des états invalide si la BDD est manipulée ailleurs ;</li>
-            <li>Ne réutilise pas la même instance d'un VO a chaque fois qu'il le rencontre.</li>
+            <li>Peut provoquer des états invalides si la BDD est manipulée ailleurs ;</li>
+            <li>Ne réutilise pas la même instance d'un VO à chaque fois qu'il le rencontre.</li>
         </ul>
     </div></section>
 
@@ -893,7 +890,7 @@ class User
 
                 <ul>
                     <li>Augmente le risque de VO invalide ;</li>
-                    <li>Comment savoir si le VO est vide, ou si il n'existe pas ?</li>
+                    <li>Comment savoir si le VO est vide, ou s'il n'existe pas ?</li>
                     <li>Comment faire un WHERE sur la nullité ? Il faut tester tous les champs ?</li>
                 </ul>
             </li>
@@ -920,7 +917,7 @@ class Model\User {
 
 
     <section class="slide"><div>
-        <h2>Code userland à la rescousse !</h2>
+        <h2>Code userland !</h2>
 
         <pre><code class="language-php">/** @Entity */
 class User
@@ -972,7 +969,7 @@ $qb->from(User::class, 'u')->select('u')
 $qb->setParameter('has', true);</code></pre>
 
         <ul>
-            <li>Requête simplifiée (on ne test que le boolean) ;</li>
+            <li>Requête simplifiée (on ne teste que le boolean) ;</li>
             <li>Le getter nous retourne ce que nous voulons ;</li>
             <li>Interopérable ;</li>
             <li>Le meilleur des deux mondes !</li>
@@ -1012,7 +1009,7 @@ $qb->setParameter('has', true);</code></pre>
     <section class="slide"><div>
         <h2>Quand utiliser un VO ?</h2>
 
-        <p style="margin-bottom: 10px;">Posez vous les bonnes questions. Votre objet :</p>
+        <p style="margin-bottom: 10px;">Posez-vous les bonnes questions. Votre objet :</p>
 
         <ul>
             <li>Mesure, quantifie, décrit ?</li>
@@ -1060,8 +1057,8 @@ $qb->setParameter('has', true);</code></pre>
 
         <ul>
             <li class="next">Ce n'est pas grave.</li>
-            <li class="next">Votre domaine va gagner en consistence et maintenabilité.</li>
-            <li class="next">Ne soyez pas trop dur avec vous même.</li>
+            <li class="next">Votre domaine va gagner en consistance et maintenabilité.</li>
+            <li class="next">Ne soyez pas trop durs avec vous-même.</li>
         </ul>
     </div></section>
 
