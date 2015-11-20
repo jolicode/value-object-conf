@@ -311,7 +311,7 @@ var_dump($one === $two); // false
         <pre><code class="language-php">$roma = new CapsuleType('Roma', 'purple', 'intense et crémeux', 9);</code></pre>
 
         <p>
-            Dans un monde idéal, toutes les capsule Roma seraient représentées par la même <strong>instance</strong> de CapsuleType.<br />
+            Dans un monde idéal, toutes les capsules Roma seraient représentées par la même <strong>instance</strong> de CapsuleType.<br />
             Dans la vraie vie, ce n'est pas le cas :
         </p>
         <ul>
@@ -827,7 +827,7 @@ $queryBuilder->setParameter('name', 'Ristretto');</code></pre>
         <h2>Loïck n'aime pas le café</h2>
 
         <pre><code class="language-php">$loick = new User();
-$loick>setFavoriteCapsuleType(null); // Aucun type de capsule préféré</code></pre>
+$loick->setFavoriteCapsuleType(null); // Aucun type de capsule préféré</code></pre>
 
         <p><blockquote>SQLSTATE[23000]: Integrity constraint violation: 1048 Column 'favoriteCapsuleType' cannot be null</blockquote></p>
     </div></section>
